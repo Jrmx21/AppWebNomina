@@ -75,29 +75,41 @@ public class EmpleadoDAO {
 	// obtener producto
 	// obtener lista de productos
 	public List<Empleado> obtenerEmpleados() throws SQLException {
-		ResultSet resultSet = null;
-		List<Empleado> listaEmpleados = new ArrayList<>();
+	    ResultSet resultSet = null;
+	    List<Empleado> listaEmpleados = new ArrayList<>();
 
-		String sql = null;
-		estadoOperacion = false;
-		connection = obtenerConexion();
+	    String sql = null;
+	    estadoOperacion = false;
+	    connection = obtenerConexion();
 
-		try {
-			sql = "SELECT * FROM empleados";
-			statement = connection.prepareStatement(sql);
-			resultSet = statement.executeQuery(sql);
-			while (resultSet.next()) {
-				Empleado e = new Empleado(resultSet.getString(1), resultSet.getString(2),
-						resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
+	    try {
+	        sql = "SELECT * FROM empleados";
+	        statement = connection.prepareStatement(sql);
+	        resultSet = statement.executeQuery();  // Corregir aquí
+	        while (resultSet.next()) {
+	            Empleado e = new Empleado(resultSet.getString(1), resultSet.getString(2),
+	                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
 
-				listaEmpleados.add(e);
-			}
+	            listaEmpleados.add(e);
+	        }
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return listaEmpleados;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Asegúrate de cerrar los recursos en el bloque finally
+	        if (resultSet != null) {
+	            resultSet.close();
+	        }
+	        if (statement != null) {
+	            statement.close();
+	        }
+	        if (connection != null) {
+	            connection.close();
+	        }
+	    }
+	    return listaEmpleados;
 	}
+
 
 	// obtener conexion pool
 	private Connection obtenerConexion() throws SQLException {

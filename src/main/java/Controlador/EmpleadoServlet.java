@@ -40,8 +40,8 @@ public class EmpleadoServlet extends HttpServlet {
 				requestDispatcher.forward(request, response);
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				 e.printStackTrace();
+				    request.setAttribute("error", "Error al obtener empleados: " + e.getMessage());
 			}
 
 			System.out.println("Usted a presionado la opcion listar");
