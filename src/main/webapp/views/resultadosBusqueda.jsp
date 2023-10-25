@@ -11,12 +11,28 @@
     <!-- Verificar si hay empleados para mostrar -->
     <c:if test="${not empty empleados}">
         <!-- Mostrar los resultados obtenidos -->
-        <ul>
-            <!-- Iterar sobre la lista de empleados -->
-            <c:forEach var="empleado" items="${empleados}">
-                <li>${empleado}</li>
+        <table border="1">
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Sexo</th>
+                <th>Categoría</th>
+                <th>Años</th>
+                <!-- Agrega más columnas según sea necesario -->
+            </tr>
+            
+            <!-- Iterar sobre la lista de empleados con un bucle for -->
+            <c:forEach var="i" begin="0" end="${empleados.size() - 1}">
+                <tr>
+                    <td>${empleados[i].getDni()}</td>
+                    <td>${empleados[i].getNombre()}</td>
+                    <td>${empleados[i].getSexo()}</td>
+                    <td>${empleados[i].getCategoria()}</td>
+                    <td>${empleados[i].getAnyos()}</td>
+                    <!-- Agrega más campos según sea necesario -->
+                </tr>
             </c:forEach>
-        </ul>
+        </table>
     </c:if>
 
     <!-- Mostrar un mensaje si no hay resultados -->
