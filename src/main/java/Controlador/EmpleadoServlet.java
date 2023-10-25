@@ -115,8 +115,6 @@ public class EmpleadoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		realizarBusqueda(request, response);
-		String opcion = request.getParameter("opcion");
 		// Recuperar el DNI del formulario
 		String dni = request.getParameter("dni");
 
