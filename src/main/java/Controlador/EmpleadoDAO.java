@@ -7,12 +7,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Clase que maneja las operaciones de acceso a datos para la entidad Empleado.
+ */
 public class EmpleadoDAO {
 	private Connection connection;
 	private PreparedStatement statement;
 	private boolean estadoOperacion;
-
+	/**
+     * Guarda un nuevo empleado en la base de datos.
+     *
+     * @param empleado El objeto Empleado a ser guardado.
+     * @return true si la operación fue exitosa, false de lo contrario.
+     * @throws SQLException si hay un error de acceso a la base de datos.
+     */
 	public boolean guardar(Empleado empleado) throws SQLException {
 		String sql = null;
 		estadoOperacion = false;
@@ -41,7 +49,13 @@ public class EmpleadoDAO {
 		return estadoOperacion;
 	}
 
-	// editar producto
+	  /**
+     * Edita un empleado existente en la base de datos.
+     *
+     * @param empleado El objeto Empleado con los datos actualizados.
+     * @return true si la operación fue exitosa, false de lo contrario.
+     * @throws SQLException si hay un error de acceso a la base de datos.
+     */
 		 public boolean editar(Empleado empleado) throws SQLException {
 		  String sql = null;
 		  estadoOperacion = false;
@@ -69,9 +83,12 @@ public class EmpleadoDAO {
 		 
 		  return estadoOperacion;
 		 }
-//		 
-	// obtener lista de productos
-
+		 /**
+		     * Obtiene las nóminas asociadas a un empleado mediante su DNI.
+		     *
+		     * @param dniEmpleado El DNI del empleado.
+		     * @return Una lista de salarios asociados al empleado.
+		     */
 	 public List<Double> obtenerNominasPorDNI(String dniEmpleado) {
 	        List<Double> nominas = new ArrayList<>();
 
@@ -94,8 +111,12 @@ public class EmpleadoDAO {
 
 	        return nominas;
 	    }
-	// obtener producto
-	// obtener lista de productos
+	  /**
+	     * Obtiene la lista de todos los empleados en la base de datos.
+	     *
+	     * @return Una lista de objetos Empleado.
+	     * @throws SQLException si hay un error de acceso a la base de datos.
+	     */
 	public List<Empleado> obtenerEmpleados() throws SQLException {
 	    ResultSet resultSet = null;
 	    List<Empleado> listaEmpleados = new ArrayList<>();
@@ -133,6 +154,14 @@ public class EmpleadoDAO {
 	    System.out.println("listar empleado "+listaEmpleados);
 	    return listaEmpleados;
 	}
+	/**
+     * Busca empleados según el criterio y el valor especificados.
+     *
+     * @param criterio El criterio de búsqueda.
+     * @param valor    El valor a buscar.
+     * @return Una lista de empleados que coinciden con los criterios de búsqueda.
+     * @throws SQLException si hay un error de acceso a la base de datos.
+     */
 	  public List<Empleado> buscarEmpleadosPorCriterio(String criterio, String valor) throws SQLException {
 	        List<Empleado> empleados = new ArrayList<>();
 
@@ -154,7 +183,12 @@ public class EmpleadoDAO {
 	    }
 
 
-	// obtener conexion pool
+	  /**
+	     * Obtiene una conexión a la base de datos.
+	     *
+	     * @return Una instancia de Connection.
+	     * @throws SQLException si hay un error de acceso a la base de datos.
+	     */
 	private Connection obtenerConexion() throws SQLException {
 		return ConnectionDB.getConnection();
 	}

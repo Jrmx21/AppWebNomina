@@ -14,12 +14,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * Servlet implementation class EmpleadoServlet
+ * 
+ * Administra peticiones para la tabla de empleados.
+ */
 @WebServlet(description = "Administra peticiones para la tabla", urlPatterns = "/empleados")
 public class EmpleadoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final char E = 0;
-
+	/**
+     * Maneja el método HTTP GET.
+     *
+     * @param request  Objeto HttpServletRequest.
+     * @param response Objeto HttpServletResponse.
+     * @throws ServletException si hay dificultades en la solicitud del servlet.
+     * @throws IOException      si hay un error de E/S en la respuesta del servlet.
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -107,7 +118,14 @@ public class EmpleadoServlet extends HttpServlet {
 //
 //		return salario;
 //	}
-
+	/**
+     * Maneja el método HTTP POST.
+     *
+     * @param request  Objeto HttpServletRequest.
+     * @param response Objeto HttpServletResponse.
+     * @throws ServletException si hay dificultades en la solicitud del servlet.
+     * @throws IOException      si hay un error de E/S en la respuesta del servlet.
+     */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Recuperar el DNI del formulario
@@ -131,7 +149,9 @@ public class EmpleadoServlet extends HttpServlet {
 		return empleadoDAO.obtenerNominasPorDNI(dni);
 
 	}
-
+	/**
+     * Actualiza los salarios de los empleados en la base de datos.
+     */
 	public static void actualizarSalario() {
 
 		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
@@ -158,7 +178,16 @@ public class EmpleadoServlet extends HttpServlet {
 			}
 		}
 	}
-
+	/**
+     * Realiza una búsqueda de empleados según el criterio y el valor especificados.
+     *
+     * @param request  Objeto HttpServletRequest.
+     * @param response Objeto HttpServletResponse.
+     * @return Una lista de empleados que coinciden con los criterios de búsqueda.
+     * @throws ServletException si hay dificultades en la solicitud del servlet.
+     * @throws IOException      si hay un error de E/S en la respuesta del servlet.
+     * @throws SQLException     si hay un error de acceso a la base de datos.
+     */
 	public List<Empleado> realizarBusqueda(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 		// Recuperar los parámetros del formulario de búsqueda
@@ -180,7 +209,14 @@ public class EmpleadoServlet extends HttpServlet {
 		return empleados;
 
 	}
-
+	 /**
+     * Busca empleados según el criterio y el valor especificados.
+     *
+     * @param criterio El criterio de búsqueda.
+     * @param valor    El valor a buscar.
+     * @return Una lista de empleados que coinciden con los criterios de búsqueda.
+     * @throws SQLException si hay un error de acceso a la base de datos.
+     */
 	private List<Empleado> buscarEmpleadosPorCriterio(String criterio, String valor) throws SQLException {
 		// Lógica para buscar empleados según el criterio y valor proporcionados
 		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
