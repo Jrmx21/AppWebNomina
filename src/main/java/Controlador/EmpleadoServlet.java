@@ -40,12 +40,12 @@ public class EmpleadoServlet extends HttpServlet {
 				requestDispatcher.forward(request, response);
 
 			} catch (SQLException e) {
-				 e.printStackTrace();
-				    request.setAttribute("error", "Error al obtener empleados: " + e.getMessage());
+				e.printStackTrace();
+				request.setAttribute("error", "Error al obtener empleados: " + e.getMessage());
 			}
 
 			System.out.println("Usted a presionado la opcion listar");
-			}
+		}
 //		else if (opcion.equals("meditar")) {
 //			int id = Integer.parseInt(request.getParameter("id"));
 //			System.out.println("Editar id: " + id);
@@ -79,22 +79,50 @@ public class EmpleadoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	private double obtenerSalarioDesdeBD(String dni) {
+		double salario = 0.0;
+
+		// Configura tu conexión a la base de datos aquí usando ConnectionDB
+		try (Connection connection = ConnectionDB.getConnection()) {
+			// Consulta SQL para obtener el sueldo asociado al DNI de la tabla empleados
+			String sql = "SELECT n.sueldo FROM nominas n INNER JOIN empleados e ON n.dni_empleado = e.dni WHERE e.dni = ?";
+
+			try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+				preparedStatement.setString(1, dni);
+
+				try (ResultSet resultSet = preparedStatement.executeQuery()) {
+					if (resultSet.next()) {
+						salario = resultSet.getDouble("sueldo");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Manejo de errores: ¡Considera un manejo más robusto en un entorno de
+									// producción!
+		}
+
+		return salario;
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String opcion = request.getParameter("opcion");
-		Date fechaActual = new Date();
+		// Recuperar el DNI del formulario
+		String dni = request.getParameter("dni");
 
-//		if (opcion.equals("guardar")) {
-//			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-//			Empleado empleado = new Empleado(request.getParameter("dni"), request.getParameter("nombre"),
-//					request.getParameter("sexo").charAt(0));
-//			System.out.println("Registro guardado satisfactoriamente...");
-//			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-//			requestDispatcher.forward(request, response);
-//
-//			// doGet(request, response);
-//		}
+		// Llamar a un método para obtener las nominas desde la base de datos
+		List<Double> nominas = obtenerNominasDesdeBD(dni);
 
+		// Establecer las nominas como un atributo para la página JSP
+		request.setAttribute("nominas", nominas);
+
+		// Redirigir a la página JSP de visualización
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/mostrarSalario.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private List<Double> obtenerNominasDesdeBD(String dni) {
+		// Llamar al método de EmpleadoDAO para obtener las nominas
+		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+		return empleadoDAO.obtenerNominasPorDNI(dni);
 	}
 }

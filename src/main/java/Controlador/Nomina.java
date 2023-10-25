@@ -17,4 +17,5 @@ public class Nomina {
 		int sueldo = SUELDO_BASE[empleado.getCategoria()] + 5000 * empleado.anyos;
 		return sueldo;
 	}
+	
 }

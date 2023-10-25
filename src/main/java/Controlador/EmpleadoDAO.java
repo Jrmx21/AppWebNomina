@@ -72,6 +72,27 @@ public class EmpleadoDAO {
 //		 
 	// obtener lista de productos
 
+	 public List<Double> obtenerNominasPorDNI(String dniEmpleado) {
+	        List<Double> nominas = new ArrayList<>();
+
+	        try (Connection connection = ConnectionDB.getConnection()) {
+	            String sql = "SELECT n.sueldo FROM nominas n INNER JOIN empleados e ON n.dni_empleado = e.dni WHERE e.dni = ?";
+	            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+	                preparedStatement.setString(1, dniEmpleado);
+
+	                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	                    while (resultSet.next()) {
+	                        double sueldo = resultSet.getDouble("sueldo");
+	                        nominas.add(sueldo);
+	                    }
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace(); // Manejo de errores: Considera un manejo más robusto en producción
+	        }
+
+	        return nominas;
+	    }
 	// obtener producto
 	// obtener lista de productos
 	public List<Empleado> obtenerEmpleados() throws SQLException {

@@ -16,5 +16,10 @@
     <td><a href="empleados?opcion=listar"> Listar Productos</a></td>
   </tr>
 </table>
+    <h2>Buscar Empleado por DNI</h2>
+  <form action="empleados?opcion=mostrarSalario" method="post">
+        DNI: <input type="text" name="dni" required>
+        <input type="submit" value="Buscar">
+    </form>
 </body>
 </html>
