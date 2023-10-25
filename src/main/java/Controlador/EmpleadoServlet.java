@@ -24,9 +24,17 @@ public class EmpleadoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		try {
+			System.out.println("empleados?" + buscarEmpleadosPorCriterio("dni", "20099558L"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String opcion = request.getParameter("opcion");
 
+		if (opcion.equals("resultadosBusqueda")) {
+			realizarBusqueda(request, response);
+		}
 		if (opcion.equals("listar")) {
 			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 			List<Empleado> lista = new ArrayList<>();
@@ -46,6 +54,7 @@ public class EmpleadoServlet extends HttpServlet {
 
 			System.out.println("Usted a presionado la opcion listar");
 		}
+
 //		else if (opcion.equals("meditar")) {
 //			int id = Integer.parseInt(request.getParameter("id"));
 //			System.out.println("Editar id: " + id);
@@ -86,7 +95,6 @@ public class EmpleadoServlet extends HttpServlet {
 		try (Connection connection = ConnectionDB.getConnection()) {
 			// Consulta SQL para obtener el sueldo asociado al DNI de la tabla empleados
 			String sql = "SELECT n.sueldo FROM nominas n INNER JOIN empleados e ON n.dni_empleado = e.dni WHERE e.dni = ?";
-
 			try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 				preparedStatement.setString(1, dni);
 
@@ -94,6 +102,7 @@ public class EmpleadoServlet extends HttpServlet {
 					if (resultSet.next()) {
 						salario = resultSet.getDouble("sueldo");
 					}
+					System.out.println(" obtenerSalarioDesdeBD success");
 				}
 			}
 		} catch (SQLException e) {
@@ -106,6 +115,8 @@ public class EmpleadoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		realizarBusqueda(request, response);
+		String opcion = request.getParameter("opcion");
 		// Recuperar el DNI del formulario
 		String dni = request.getParameter("dni");
 
@@ -123,6 +134,66 @@ public class EmpleadoServlet extends HttpServlet {
 	private List<Double> obtenerNominasDesdeBD(String dni) {
 		// Llamar al método de EmpleadoDAO para obtener las nominas
 		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+		System.out.println(" obtenerNominasDesdeBD success");
 		return empleadoDAO.obtenerNominasPorDNI(dni);
+
+	}
+
+	public static void actualizarSalario() {
+
+		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+		List<Empleado> empleados = null;
+		try {
+			empleados = empleadoDAO.obtenerEmpleados();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Nomina n = new Nomina();
+
+		for (Empleado empleado : empleados) {
+			int nuevoSueldo = n.sueldo(empleado);
+
+			try (Connection connection = ConnectionDB.getConnection()) {
+				String sql = "UPDATE nominas SET sueldo = ? WHERE dni = (SELECT dni FROM empleados WHERE dni_empleado = ?)";
+				try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+					preparedStatement.setInt(2, nuevoSueldo);
+					preparedStatement.setString(1, empleado.getDni());
+					preparedStatement.executeUpdate();
+					System.out.println(" actualizarSalario success");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace(); // Manejo de errores: Considera un manejo más robusto en producción
+			}
+		}
+	}
+
+	private void realizarBusqueda(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Recuperar los parámetros del formulario de búsqueda
+		String criterio = request.getParameter("criterio");
+		String valor = request.getParameter("valor");
+
+		try {
+			// Llamar al método para buscar empleados en la base de datos
+			List<Empleado> empleados = buscarEmpleadosPorCriterio(criterio, valor);
+
+			// Establecer los resultados como atributo para la página JSP
+			request.setAttribute("empleados", empleados);
+
+			// Redirigir a la página JSP de resultados
+			request.getRequestDispatcher("/views/resultadosBusqueda.jsp").forward(request, response);
+			System.out.println(" realizarBusqueda sucess");
+		} catch (SQLException e) {
+			e.printStackTrace(); // Manejo de errores: Considera un manejo más robusto en producción
+		}
+	}
+
+	private List<Empleado> buscarEmpleadosPorCriterio(String criterio, String valor) throws SQLException {
+		// Lógica para buscar empleados según el criterio y valor proporcionados
+		EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+		System.out.println(" buscarEmpleadoPorCriterio success");
+		return empleadoDAO.buscarEmpleadosPorCriterio(criterio, valor);
+
 	}
 }

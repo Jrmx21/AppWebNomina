@@ -79,11 +79,12 @@ public class EmpleadoDAO {
 	            String sql = "SELECT n.sueldo FROM nominas n INNER JOIN empleados e ON n.dni_empleado = e.dni WHERE e.dni = ?";
 	            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 	                preparedStatement.setString(1, dniEmpleado);
-
+	                
 	                try (ResultSet resultSet = preparedStatement.executeQuery()) {
 	                    while (resultSet.next()) {
 	                        double sueldo = resultSet.getDouble("sueldo");
 	                        nominas.add(sueldo);
+	                        System.out.println("obtenerNominasPorDni success");
 	                    }
 	                }
 	            }
@@ -112,6 +113,7 @@ public class EmpleadoDAO {
 	                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
 
 	            listaEmpleados.add(e);
+	        System.out.println("obtenerEmpleados sucess");
 	        }
 
 	    } catch (SQLException e) {
@@ -130,6 +132,25 @@ public class EmpleadoDAO {
 	    }
 	    return listaEmpleados;
 	}
+	  public List<Empleado> buscarEmpleadosPorCriterio(String criterio, String valor) throws SQLException {
+	        List<Empleado> empleados = new ArrayList<>();
+
+	        try (Connection connection = ConnectionDB.getConnection()) {
+	            String sql = "SELECT * FROM empleados WHERE " + criterio + " = ?";
+	            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+	                preparedStatement.setString(1, valor);
+	                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+	                    while (resultSet.next()) {
+	                    	 Empleado empleado = new Empleado(resultSet.getString(1), resultSet.getString(2),
+	         	                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
+	                    	 System.out.println("buscarEmpleadosPorCriterio sucess");
+	                        empleados.add(empleado);
+	                    }
+	                }
+	            }
+	        }
+	        return empleados;
+	    }
 
 
 	// obtener conexion pool
