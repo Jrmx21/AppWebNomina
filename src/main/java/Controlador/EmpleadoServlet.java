@@ -32,7 +32,7 @@ public class EmpleadoServlet extends HttpServlet {
 		String opcion = request.getParameter("opcion");
 
 		if (opcion.equals("resultadosBusqueda")) {
-			
+
 			try {
 				List<Empleado> empleados = realizarBusqueda(request, response);
 			} catch (ServletException | IOException | SQLException e) {
@@ -60,33 +60,23 @@ public class EmpleadoServlet extends HttpServlet {
 			System.out.println("Usted a presionado la opcion listar");
 		}
 
-//		else if (opcion.equals("meditar")) {
-//			int id = Integer.parseInt(request.getParameter("id"));
-//			System.out.println("Editar id: " + id);
-//			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-//			Empleado e = new Empleado("", "", E);
-//			try {
-//				e = (Empleado) empleadoDAO.obtenerEmpleados();
-//				System.out.println(e);
-//				request.setAttribute("employees", e);
-//				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
-//				requestDispatcher.forward(request, response);
-//
-//			} catch (SQLException error) {
-//				// TODO Auto-generated catch block
-//				error.printStackTrace();
-//			}
-//
-//		} else if (opcion.equals("eliminar")) {
-//			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-//			int id = Integer.parseInt(request.getParameter("id"));
-//			// empleadoDAO.eliminar(id);
-//			System.out.println("Registro eliminado satisfactoriamente...");
-//			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-//			requestDispatcher.forward(request, response);
-//
-//		}
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
+		else if (opcion.equals("meditar")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			System.out.println("Editar id: " + id);
+			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+			Empleado e = new Empleado("", "", E);
+			try {
+				e = (Empleado) empleadoDAO.obtenerEmpleados();
+				System.out.println(e);
+				request.setAttribute("employees", e);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
+				requestDispatcher.forward(request, response);
+
+			} catch (SQLException error) {
+				// TODO Auto-generated catch block
+				error.printStackTrace();
+			}
+		}
 	}
 
 	/**
