@@ -1,36 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Resultados de Búsqueda</title>
+    <title>Resultados de Búsqueda</title>
 </head>
 <body>
-	<h2>Resultados de Búsqueda</h2>
-	<p>DEBUG: Número de empleados encontrados: ${empleados.size()}</p>
-	<!-- Verifica si hay empleados para mostrar -->
-	<c:if test="${not empty empleados}">
-		<!-- Mostrar los resultados obtenidos -->
-		<table border="1">
-			<tr>
-				<th>DNI</th>
-				<th>Nombre</th>
-				<th>Sexo</th>
-				<th>Categoría</th>
-				<th>Años</th>
-				<!-- Agrega más columnas según sea necesario -->
-			</tr>
-			<c:forEach var="empleado" items="${empleados}">
-				<tr>
-					<td>${empleado.dni}</td>
-					<td>${empleado.nombre}</td>
-					<td>${empleado.sexo}</td>
-					<td>${empleado.categoria}</td>
-					<td>${empleado.anyos}</td>
+    <h2>Resultados de Búsqueda</h2>
 
-				</tr>
-			</c:forEach>
-		</table>
-	</c:if>
+    <!-- Verificar si hay empleados para mostrar -->
+    <c:if test="${not empty empleados}">
+        <!-- Mostrar los resultados obtenidos -->
+        <ul>
+            <!-- Iterar sobre la lista de empleados -->
+            <c:forEach var="empleado" items="${empleados}">
+                <li>${empleado}</li>
+            </c:forEach>
+        </ul>
+    </c:if>
 
+    <!-- Mostrar un mensaje si no hay resultados -->
+    <c:if test="${empty empleados}">
+        <p>No se encontraron resultados para la búsqueda.</p>
+    </c:if>
 </body>
 </html>

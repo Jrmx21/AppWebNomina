@@ -18,6 +18,14 @@ public class Empleado extends Persona {
 		this.categoria = 1;
 		this.anyos = 0;
 	}
+	
+
+	@Override
+	public String toString() {
+		return "Empleado [categoria=" + categoria + ", anyos=" + anyos + ", numEmp=" + numEmp + ", nombre=" + nombre
+				+ ", dni=" + dni + ", sexo=" + sexo + "]";
+	}
+
 
 	public int getNumEmp() {
 		return numEmp;

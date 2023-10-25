@@ -130,6 +130,7 @@ public class EmpleadoDAO {
 	            connection.close();
 	        }
 	    }
+	    System.out.println("listar empleado "+listaEmpleados);
 	    return listaEmpleados;
 	}
 	  public List<Empleado> buscarEmpleadosPorCriterio(String criterio, String valor) throws SQLException {
