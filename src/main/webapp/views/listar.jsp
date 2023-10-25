@@ -8,6 +8,9 @@
 <title>Listar empleados</title>
 </head>
 <body>
+<form action="/AppWebNomina/" method="get">
+        <input type="submit" value="Volver">
+    </form>
 	<h1>Listar empleados</h1>
 	<table border="1">
 		<tr>

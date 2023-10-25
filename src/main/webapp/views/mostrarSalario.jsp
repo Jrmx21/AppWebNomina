@@ -6,6 +6,9 @@
     <title>Mostrar Salario</title>
 </head>
 <body>
+<form action="/AppWebNomina/" method="get">
+        <input type="submit" value="Volver">
+    </form>
     <h2>Salario del Empleado</h2>
     <% List<Double> nominas = (List<Double>)request.getAttribute("nominas"); %>
     <% if (nominas != null && !nominas.isEmpty()) { %>

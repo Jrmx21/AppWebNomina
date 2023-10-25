@@ -6,6 +6,9 @@
     <title>Resultados de Búsqueda</title>
 </head>
 <body>
+<form action="/AppWebNomina/" method="get">
+        <input type="submit" value="Volver">
+    </form>
     <h2>Resultados de Búsqueda</h2>
 
     <!-- Verificar si hay empleados para mostrar -->

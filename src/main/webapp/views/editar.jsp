@@ -8,6 +8,9 @@
 <title>Editar Empleado</title>
 </head>
 <body>
+<form action="/AppWebNomina/" method="get">
+        <input type="submit" value="Volver">
+    </form>
 	<h1>Editar Empleado</h1>
 	<form action="empleados" method="post">
 		<c:set var="empleado" value="${empleado}"></c:set>

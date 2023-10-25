@@ -7,6 +7,9 @@
 <title>Crear Producto</title>
 </head>
 <body>
+<form action="/AppWebNomina/" method="get">
+        <input type="submit" value="Volver">
+    </form>
 	<h1>Crear Producto</h1>
 	<form action="empleados" method="post">
 		<input type="hidden" name="opcion" value="guardar">

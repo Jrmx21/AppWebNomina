@@ -7,7 +7,7 @@
 <title>Menú de Opciones</title>
 </head>
 <body>
-	<h1>Menu de Opciones Productos</h1>
+	<h1>Menu de Opciones Empleados</h1>
 	<table border="1">
 		<tr>
 			<td><a href="empleados?opcion=listar"> Listar empleados</a></td>
