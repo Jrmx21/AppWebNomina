@@ -189,6 +189,7 @@ public class EmpleadoDAO {
 	     * @return Una instancia de Connection.
 	     * @throws SQLException si hay un error de acceso a la base de datos.
 	     */
+	  
 	private Connection obtenerConexion() throws SQLException {
 		return ConnectionDB.getConnection();
 	}

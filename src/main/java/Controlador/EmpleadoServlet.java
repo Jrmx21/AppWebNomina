@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class EmpleadoServlet extends HttpServlet {
      */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		// TODO Auto-generated method stub
 		try {
 			System.out.println("empleados?" + buscarEmpleadosPorCriterio("dni", "20099558L"));
@@ -72,14 +74,15 @@ public class EmpleadoServlet extends HttpServlet {
 		}
 
 		else if (opcion.equals("meditar")) {
-			int id = Integer.parseInt(request.getParameter("id"));
-			System.out.println("Editar id: " + id);
+			Empleado empleado = new Empleado("", "", E);
+			int dni = Integer.parseInt(request.getParameter("dni"));
+			System.out.println("Editar dni: " + empleado.dni);
 			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-			Empleado e = new Empleado("", "", E);
+			
 			try {
-				e = (Empleado) empleadoDAO.obtenerEmpleados();
-				System.out.println(e);
-				request.setAttribute("employees", e);
+				empleado = (Empleado) empleadoDAO.obtenerEmpleados();
+				System.out.println(empleado);
+				request.setAttribute("employees", empleado);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
 				requestDispatcher.forward(request, response);
 
@@ -87,7 +90,41 @@ public class EmpleadoServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				error.printStackTrace();
 			}
-		}
+		}else if (opcion.equals("guardar")) {
+			
+			   try {
+				   ResultSet resultSet = null;
+				   EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+				   Empleado empleado = new Empleado(resultSet.getString(1), resultSet.getString(2),
+		                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
+
+			    empleadoDAO.guardar(empleado);
+			    System.out.println("Registro guardado satisfactoriamente...");
+			    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			    requestDispatcher.forward(request, response);
+			 
+			   } catch (SQLException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			   }
+			  } else if (opcion.equals("editar")) {
+				  
+			 
+			   try {
+				   ResultSet resultSet = null;
+					  Empleado empleado = new Empleado(resultSet.getString(1), resultSet.getString(2),
+			                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
+
+				   EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+			    empleadoDAO.editar(empleado);
+			    System.out.println("Registro editado satisfactoriamente...");
+			    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			    requestDispatcher.forward(request, response);
+			   } catch (SQLException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			   }
+			  }
 	}
 
 	/**
