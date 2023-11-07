@@ -74,15 +74,16 @@ public class EmpleadoServlet extends HttpServlet {
 		}
 
 		else if (opcion.equals("meditar")) {
+			List<Empleado> lista = new ArrayList<>();
 			Empleado empleado = new Empleado("", "", E);
-			int dni = Integer.parseInt(request.getParameter("dni"));
+			String dni = request.getParameter("dni");
 			System.out.println("Editar dni: " + empleado.dni);
 			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 			
 			try {
-				empleado = (Empleado) empleadoDAO.obtenerEmpleados();
-				System.out.println(empleado);
-				request.setAttribute("employees", empleado);
+				lista = empleadoDAO.obtenerEmpleados();
+				System.out.println(lista);
+				request.setAttribute("empleados", lista);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
 				requestDispatcher.forward(request, response);
 

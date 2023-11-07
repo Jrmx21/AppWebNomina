@@ -20,14 +20,10 @@
 			<td>CATEGORIA</td>
 			<td>AÑOS</td>
 		</tr>
-		<a
-			href="productos?opcion=meditar&id=<c:out value="${ producto.id}"></c:out>">
-			<c:out value="${ producto.id}"></c:out>
-		</a>
 		<c:forEach var="empleado" items="${lista}">
 			<tr>
 				<td><a
-					href="empleados?opcion=meditar&dni=<c:out value="${ empleado.dni}"></c:out>">
+					href="empleados?opcion=meditar&dni=<c:out value="${ empleado.nombre}"></c:out>">
 						<c:out value="${ empleado.dni}"></c:out>
 				</a></td>
 				<td><c:out value="${ empleado.nombre}"></c:out></td>

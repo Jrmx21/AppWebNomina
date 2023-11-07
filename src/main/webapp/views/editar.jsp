@@ -16,6 +16,7 @@
 		<c:set var="empleado" value="${empleado}"></c:set>
 		<input type="hidden" name="opcion" value="editar"> <input
 			type="hidden" name="dni" value="${empleado.dni}">
+			<h3>Está editando el empleado:<c:out value="${ empleado.nombre}"></c:out></h3> 
 		<table border="1">
 			<tr>
 				<td>Dni:</td>

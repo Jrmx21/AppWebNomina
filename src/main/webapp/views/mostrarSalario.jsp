@@ -19,7 +19,7 @@
             <% } %>
         </ul>
     <% } else { %>
-        <p>No se encontró información para el DNI proporcionado.</p>
+        <p>No se encontrï¿½ informaciï¿½n para el DNI proporcionado.</p>
     <% } %>
 </body>
 </html>
