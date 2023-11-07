@@ -62,7 +62,7 @@ public class EmpleadoDAO {
 		  connection = obtenerConexion();
 		  try {
 		   connection.setAutoCommit(false);
-		   sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, sexo=?,fecha_actualizar=? WHERE dni=?";
+		   sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, sexo=?, WHERE dni=?";
 		   statement = connection.prepareStatement(sql);
 		 
 		   statement.setString(1, empleado.getNombre());
@@ -130,10 +130,10 @@ public class EmpleadoDAO {
 	        statement = connection.prepareStatement(sql);
 	        resultSet = statement.executeQuery();  // Corregir aquí
 	        while (resultSet.next()) {
-	            Empleado e = new Empleado(resultSet.getString(1), resultSet.getString(2),
+	            Empleado emp = new Empleado(resultSet.getString(2), resultSet.getString(1),
 	                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
 
-	            listaEmpleados.add(e);
+	            listaEmpleados.add(emp);
 	        System.out.println("obtenerEmpleados sucess");
 	        }
 

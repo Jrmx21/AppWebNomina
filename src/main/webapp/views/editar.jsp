@@ -12,10 +12,10 @@
         <input type="submit" value="Volver">
     </form>
 	<h1>Editar Empleado</h1>
-	<form action="empleados" method="post">
-		<c:set var="empleado" value="${empleado}"></c:set>
-		<input type="hidden" name="opcion" value="editar"> <input
-			type="hidden" name="dni" value="${empleado.dni}">
+<form action="empleados" method="post">
+  <c:set var="empleado" value="${empleado}"></c:set>
+  <input type="hidden" name="opcion" value="editar">
+  <input type="hidden" name="dni" value="${empleado.dni}">
 			<h3>Está editando el empleado:<c:out value="${ empleado.nombre}"></c:out></h3> 
 		<table border="1">
 			<tr>

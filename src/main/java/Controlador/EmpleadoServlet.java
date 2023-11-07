@@ -3,7 +3,6 @@ package Controlador;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -74,19 +73,18 @@ public class EmpleadoServlet extends HttpServlet {
 		}
 
 		else if (opcion.equals("meditar")) {
-			List<Empleado> lista = new ArrayList<>();
+			List<Empleado> empleados = new ArrayList<>();
 			Empleado empleado = new Empleado("", "", E);
 			String dni = request.getParameter("dni");
 			System.out.println("Editar dni: " + empleado.dni);
 			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 			
 			try {
-				lista = empleadoDAO.obtenerEmpleados();
-				System.out.println(lista);
-				request.setAttribute("empleados", lista);
+				empleados = empleadoDAO.obtenerEmpleados();
+				System.out.println(empleados);
+				request.setAttribute("empleados", empleados);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
 				requestDispatcher.forward(request, response);
-
 			} catch (SQLException error) {
 				// TODO Auto-generated catch block
 				error.printStackTrace();
@@ -94,11 +92,10 @@ public class EmpleadoServlet extends HttpServlet {
 		}else if (opcion.equals("guardar")) {
 			
 			   try {
-				   ResultSet resultSet = null;
 				   EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-				   Empleado empleado = new Empleado(resultSet.getString(1), resultSet.getString(2),
-		                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
-
+				   Empleado empleado = new Empleado(request.getParameter("nombre"),request.getParameter("dni"),
+					        request.getParameter("sexo").toCharArray()[0], Integer.parseInt(request.getParameter("categoria")),
+					        Integer.parseInt(request.getParameter("anyos")));
 			    empleadoDAO.guardar(empleado);
 			    System.out.println("Registro guardado satisfactoriamente...");
 			    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
@@ -109,13 +106,10 @@ public class EmpleadoServlet extends HttpServlet {
 			    e.printStackTrace();
 			   }
 			  } else if (opcion.equals("editar")) {
-				  
-			 
 			   try {
-				   ResultSet resultSet = null;
-					  Empleado empleado = new Empleado(resultSet.getString(1), resultSet.getString(2),
-			                    resultSet.getString(3).toCharArray()[0], resultSet.getInt(4), resultSet.getInt(5));
-
+				   Empleado empleado = new Empleado( request.getParameter("nombre"),request.getParameter("dni"),
+		                    request.getParameter("sexo").toCharArray()[0], Integer.parseInt(request.getParameter("categoria")),
+		                    Integer.parseInt(request.getParameter("anyos")));
 				   EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 			    empleadoDAO.editar(empleado);
 			    System.out.println("Registro editado satisfactoriamente...");
@@ -176,7 +170,7 @@ public class EmpleadoServlet extends HttpServlet {
 		request.setAttribute("nominas", nominas);
 
 		// Redirigir a la página JSP de visualización
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/mostrarSalario.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/listar.jsp");
 		dispatcher.forward(request, response);
 	}
 
