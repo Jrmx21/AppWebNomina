@@ -1,4 +1,4 @@
-package Controlador;
+package model;
 
 public class Empleado extends Persona {
 	private int categoria;

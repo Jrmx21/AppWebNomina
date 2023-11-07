@@ -1,4 +1,4 @@
-package Controlador;
+package model;
 
 public class Persona {
 	public String nombre, dni;

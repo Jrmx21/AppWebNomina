@@ -6,11 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Editar Empleado</title>
+<link rel="stylesheet" href="styles/style.css"></link>
 </head>
 <body>
-<form action="/AppWebNomina/" method="get">
-        <input type="submit" value="Volver">
-    </form>
 	<h1>Editar Empleado</h1>
 <form action="empleados" method="post">
   <c:set var="empleado" value="${empleado}"></c:set>
@@ -41,5 +39,8 @@
 		</table>
 		<input type="submit" value="Guardar">
 	</form>
+	<form action="/AppWebNomina/" method="get">
+        <input  type="submit" value="Volver">
+    </form>
 </body>
 </html>

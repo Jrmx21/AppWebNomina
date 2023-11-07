@@ -4,12 +4,10 @@
 <html>
 <head>
     <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="styles/style.css"></link>
 </head>
 <body>
-<form action="/AppWebNomina/" method="get">
-        <input type="submit" value="Volver">
-    </form>
-    <h2>Resultados de Búsqueda</h2>
+    <h1>Resultados de Búsqueda</h1>
 
     <!-- Verificar si hay empleados para mostrar -->
     <c:if test="${not empty empleados}">
@@ -42,5 +40,8 @@
     <c:if test="${empty empleados}">
         <p>No se encontraron resultados para la búsqueda.</p>
     </c:if>
+    <form action="/AppWebNomina/" method="get">
+        <input  type="submit" value="Volver">
+    </form>
 </body>
 </html>
