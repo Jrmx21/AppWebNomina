@@ -106,7 +106,8 @@ public class EmpleadoServlet extends HttpServlet {
 		if (opcion.equals("editar")) {
 	        // Obtener datos del formulario
 	        String nombre = request.getParameter("nombre");
-	        char sexo = request.getParameter("sexo").toCharArray()[0];
+	        String sexoStr = request.getParameter("sexo");
+	        char sexo = (sexoStr != null && sexoStr.length() > 0) ? sexoStr.charAt(0) : ' '; // Asegurarse de que sea solo un carácter
 	        int categoria = Integer.parseInt(request.getParameter("categoria"));
 	        int anyos = Integer.parseInt(request.getParameter("anyos"));
 	        Empleado empleado = new Empleado(dni,nombre,sexo,categoria,anyos);

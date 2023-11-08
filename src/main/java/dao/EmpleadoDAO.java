@@ -69,7 +69,7 @@ public class EmpleadoDAO {
 		  connection = obtenerConexion();
 		  try {
 		   connection.setAutoCommit(false);
-		   sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, sexo=? WHERE dni=?";
+		   sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, anyos=? WHERE dni=?";
 		   statement = connection.prepareStatement(sql);
 		 
 		   statement.setString(1, empleado.getDni());
