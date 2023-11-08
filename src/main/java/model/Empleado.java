@@ -56,6 +56,11 @@ public class Empleado extends Persona {
 		}
 	}
 
+
+	public Empleado() {
+		super();
+	}
+
 	public void setCategoria(int nuevaCategoria) {
 		this.categoria = nuevaCategoria;
 	}

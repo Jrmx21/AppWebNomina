@@ -28,33 +28,33 @@ public class EmpleadoDAO {
      * @return true si la operación fue exitosa, false de lo contrario.
      * @throws SQLException si hay un error de acceso a la base de datos.
      */
-	public boolean guardar(Empleado empleado) throws SQLException {
-		String sql = null;
-		estadoOperacion = false;
-		connection = obtenerConexion();
-
-		try {
-			connection.setAutoCommit(false);
-			sql = "INSERT INTO productos (id, nombre, cantidad, precio, fecha_crear,fecha_actualizar) VALUES(?,?,?,?,?,?)";
-			statement = connection.prepareStatement(sql);
-
-			statement.setString(1, empleado.getNombre());
-			statement.setString(2, String.valueOf(empleado.getSexo()));
-			statement.setInt(4, empleado.getAnyos());
-			statement.setString(5, empleado.getDni());
-
-			estadoOperacion = statement.executeUpdate() > 0;
-
-			connection.commit();
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
-			connection.rollback();
-			e.printStackTrace();
-		}
-
-		return estadoOperacion;
-	}
+//	public boolean guardar(Empleado empleado) throws SQLException {
+//		String sql = null;
+//		estadoOperacion = false;
+//		connection = obtenerConexion();
+//
+//		try {
+//			connection.setAutoCommit(false);
+//			sql = "INSERT INTO productos (nombre,sexo,anyos,categoria) VALUES(?,?,?,?,?,?)";
+//			statement = connection.prepareStatement(sql);
+//			statement.setString(1, empleado.getNombre());
+//			statement.setString(2, String.valueOf(empleado.getSexo()));
+//			statement.setInt(3, empleado.getAnyos());
+//			statement.setInt(4, empleado.getCategoria());
+//
+//			estadoOperacion = statement.executeUpdate() > 0;
+//
+//			connection.commit();
+//			statement.close();
+//			connection.close();
+//			System.out.println("SE HA GUARDADO ");
+//		} catch (SQLException e) {
+//			connection.rollback();
+//			e.printStackTrace();
+//		}
+//		
+//		return estadoOperacion;
+//	}
 
 	  /**
      * Edita un empleado existente en la base de datos.
@@ -69,14 +69,14 @@ public class EmpleadoDAO {
 		  connection = obtenerConexion();
 		  try {
 		   connection.setAutoCommit(false);
-		   sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, sexo=?, WHERE dni=?";
+		   sql = "UPDATE empleados SET nombre=?, sexo=?, categoria=?, sexo=? WHERE dni=?";
 		   statement = connection.prepareStatement(sql);
 		 
-		   statement.setString(1, empleado.getNombre());
+		   statement.setString(1, empleado.getDni());
 		   statement.setString(2, String.valueOf(empleado.getSexo()));
 		   statement.setInt(3, empleado.getCategoria());
 		   statement.setInt(4, empleado.getAnyos());
-		   statement.setString(5, empleado.getDni());
+		   statement.setString(5, empleado.getNombre());
 		 
 		   estadoOperacion = statement.executeUpdate() > 0;
 		   connection.commit();
@@ -87,8 +87,9 @@ public class EmpleadoDAO {
 		   connection.rollback();
 		   e.printStackTrace();
 		  }
-		 
+		  System.out.println("SE HA EDITADO");
 		  return estadoOperacion;
+		
 		 }
 		 /**
 		     * Obtiene las nóminas asociadas a un empleado mediante su DNI.
@@ -161,6 +162,36 @@ public class EmpleadoDAO {
 	    System.out.println("listar empleado "+listaEmpleados);
 	    return listaEmpleados;
 	}
+	public Empleado obtenerEmpleadosPorDNI(String dni) throws SQLException {
+	    ResultSet resultSet = null;
+	    String sql = null;
+	    estadoOperacion = false;
+	    Empleado emp = new Empleado();
+	    connection = obtenerConexion();
+	    try {
+	        sql = "SELECT * FROM empleados where dni=?";
+	        statement = connection.prepareStatement(sql);
+	        statement.setString(1, dni);
+	        resultSet = statement.executeQuery();  // Corregir aquí
+	        while (resultSet.next()) {
+	        	
+	        	emp.setDni(resultSet.getString(1));
+	        	emp.setNombre(resultSet.getString(2));
+	        	emp.setSexo( resultSet.getString(3).toCharArray()[0]);
+	        	emp.setCategoria(resultSet.getInt(4));
+	        	emp.setAnyos(resultSet.getInt(5));
+	        	
+	        System.out.println("obtenerEmpleadosPorDNI sucess");
+	        
+	        }
+	     }
+	     catch (SQLException e) {
+	        e.printStackTrace();
+	     }
+	    return emp;
+	    
+	}
+	    
 	/**
      * Busca empleados según el criterio y el valor especificados.
      *

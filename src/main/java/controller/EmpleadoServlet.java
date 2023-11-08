@@ -71,59 +71,26 @@ public class EmpleadoServlet extends HttpServlet {
 
 			System.out.println("Usted a presionado la opcion listar");
 		}
-
 		else if (opcion.equals("meditar")) {
-			List<Empleado> empleados = new ArrayList<>();
 			Empleado empleado = new Empleado("", "", E);
 			String dni = request.getParameter("dni");
 			System.out.println("Editar dni: " + empleado.dni);
 			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 			
 			try {
-				empleados = empleadoDAO.obtenerEmpleados();
-				System.out.println(empleados);
-				request.setAttribute("empleados", empleados);
+				empleado = empleadoDAO.obtenerEmpleadosPorDNI(dni);
+				System.out.println(empleado);
+				request.setAttribute("empleado", empleado);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
 				requestDispatcher.forward(request, response);
 			} catch (SQLException error) {
 				// TODO Auto-generated catch block
 				error.printStackTrace();
 			}
-		}else if (opcion.equals("guardar")) {
-			
-			   try {
-				   EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-				   Empleado empleado = new Empleado(request.getParameter("nombre"),request.getParameter("dni"),
-					        request.getParameter("sexo").toCharArray()[0], Integer.parseInt(request.getParameter("categoria")),
-					        Integer.parseInt(request.getParameter("anyos")));
-			    empleadoDAO.guardar(empleado);
-			    System.out.println("Registro guardado satisfactoriamente...");
-			    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-			    requestDispatcher.forward(request, response);
-			 
-			   } catch (SQLException e) {
-			    // TODO Auto-generated catch block
-			    e.printStackTrace();
-			   }
-			  } else if (opcion.equals("editar")) {
-		            List<Empleado> empleados = new ArrayList<>();
-		            Empleado empleado = null; // Cambio: Inicializar empleado como null
-		            String dni = request.getParameter("dni");
-		            System.out.println("Editar dni: " + dni);
-
-		            try {
-		                // Cambio: Obtener el empleado por DNI
-		                empleados = EmpleadoDAO.buscarEmpleadosPorCriterio("dni", dni);
-		                if (!empleados.isEmpty()) {
-		                    empleado = empleados.get(0);
-		                    request.setAttribute("empleado", empleado); // Cambio: Añadir el empleado a los atributos de la solicitud
-		                }
-		            } catch (SQLException error) {
-		                error.printStackTrace();
-		            }
-
-			  }
-	}
+		}
+		}
+			  
+	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -136,23 +103,62 @@ public class EmpleadoServlet extends HttpServlet {
 		// Establecer las nominas como un atributo para la página JSP
 		request.setAttribute("nominas", nominas);
 
+		if (opcion.equals("editar")) {
+	        // Obtener datos del formulario
+	        String nombre = request.getParameter("nombre");
+	        char sexo = request.getParameter("sexo").toCharArray()[0];
+	        int categoria = Integer.parseInt(request.getParameter("categoria"));
+	        int anyos = Integer.parseInt(request.getParameter("anyos"));
+	        Empleado empleado = new Empleado(dni,nombre,sexo,categoria,anyos);
+	        EmpleadoDAO empleadoDAO= new EmpleadoDAO();
+	        try {
+				empleadoDAO.editar(empleado);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        // Verificar si se envió el formulario de edición
+//	        if (nombre != null && sexo != null && categoria != null && anyos != null) {
+//	            // Realizar acciones específicas en tu DAO
+//	            // Por ejemplo, podrías llamar a un método para actualizar los datos en la base de datos
+//	            // Ejemplo: EmpleadoDAO.actualizarEmpleado(dni, nombre, sexo, categoria, anyos);
+//	            
+//	            // Luego, redirige a la página que deseas
+//	            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+//	            dispatcher.forward(request, response);
+//	        }
+	    }
 		// Redirigir a la página JSP de visualización
 		if(opcion.equals("mostrarSalario")) {
-			
 			//TENDRAS QUE GUARDAR EN UNA VARIABLE
 			double salario = EmpleadoDAO.obtenerSalarioDesdeBD(dni);
-			
-			
-			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/views/mostrarSalario.jsp");
 			dispatcher.forward(request, response);
-			
-			
 		}
+		
 		else if (opcion.equals("listar")) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/views/listar.jsp");
 			dispatcher.forward(request, response);
 			
+		}  if (opcion.equals("editar")) {
+            List<Empleado> empleados = new ArrayList<>();
+            Empleado empleado = null; // Cambio: Inicializar empleado como null
+            String dniEditar = request.getParameter("dni");
+            System.out.println("Editar dni: " + dniEditar);
+            try {
+                empleados = EmpleadoDAO.buscarEmpleadosPorCriterio("dni", dniEditar);
+                if (!empleados.isEmpty()) {
+                    empleado = empleados.get(0);
+                    request.setAttribute("empleado", empleado); // Cambio: Añadir el empleado a los atributos de la solicitud
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        			dispatcher.forward(request, response);
+                }
+            } catch (SQLException error) {
+                error.printStackTrace();
+            }
+
+	  }
 		}
-	}
+		
+
 }

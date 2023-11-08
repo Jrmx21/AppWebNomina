@@ -1,27 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Mostrar Salario</title>
-<link rel="stylesheet" href="styles/style.css"></link>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
     <h1>Salario del Empleado</h1>
-    <% List<Double> nominas = (List<Double>)request.getAttribute("nominas"); %>
-    <% if (nominas != null && !nominas.isEmpty()) { %>
+    <c:set var="nominas" value="${requestScope.nominas}" />
+    <c:if test="${not empty nominas}">
         <p>El salario del empleado es:</p>
         <ul>
-            <% for (Double sueldo : nominas) { %>
-                <li>$<%= sueldo %></li>
-            <% } %>
+            <c:forEach var="sueldo" items="${nominas}">
+                <li>$<c:out value="${sueldo}" /></li>
+            </c:forEach>
         </ul>
-    <% } else { %>
+    </c:if>
+    <c:if test="${empty nominas}">
         <p>No se encontró información para el DNI proporcionado.</p>
-    <% } %>
-</body>
-<form action="/AppWebNomina/" method="get">
+    </c:if>
+
+    <form action="/AppWebNomina/" method="get">
         <input type="submit" value="Volver">
     </form>
+</body>
 </html>

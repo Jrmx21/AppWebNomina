@@ -13,9 +13,9 @@
         <tr>
             <td><a href="empleados?opcion=listar"> Listar empleados</a></td>
         </tr>
-        <tr>
+       <!-- <tr>
             <td><a href="empleados?opcion=actualizar"> Actualizar empleados</a></td>
-        </tr>
+        </tr> -->
         </table>
 	
 	<form action="empleados?opcion=mostrarSalario" method="post">

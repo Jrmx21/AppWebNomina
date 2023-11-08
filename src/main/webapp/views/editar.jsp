@@ -14,11 +14,11 @@
   <c:set var="empleado" value="${empleado}"></c:set>
   <input type="hidden" name="opcion" value="editar">
   <input type="hidden" name="dni" value="${empleado.dni}">
-			<h3>Está editando el empleado:<c:out value="${ empleado.nombre}"></c:out></h3> 
+			<h3>Está editando el empleado:<c:out value="${ empleado.getNombre()}"></c:out></h3> 
 		<table border="1">
 			<tr>
 				<td>Dni:</td>
-				<td><input type="text" name="dni" size="50" value="${empleado.dni}"></td>
+				<td><input  type="text" name="dni" size="50" disabled value="${empleado.getDni()} "></td>
 			</tr>
 			<tr>
 				<td>Nombre:</td>
@@ -33,7 +33,7 @@
 				<td><input type="text" name="categoria" size="50" value="${empleado.categoria}"></td>
 			</tr>
 			<tr>
-				<td>Aï¿½os:</td>
+				<td>Anyos:</td>
 				<td><input type="text" name="anyos" size="50" value="${empleado.anyos}"></td>
 			</tr>
 		</table>

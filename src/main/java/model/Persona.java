@@ -17,6 +17,10 @@ public class Persona {
 		this.sexo = sexo;
 	}
 
+	public Persona() {
+		
+	}
+
 	public void setDni(String valorDni) {
 		this.dni = valorDni;
 	}
